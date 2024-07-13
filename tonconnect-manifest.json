@@ -1,7 +1,9 @@
 {
-    "url": "https://usama25.github.io/Clicker-Telegram/",                        
-    "name": "Pirate Coin",                      
-    "iconUrl": "https://usama25.github.io/Clicker-Telegram/coin.png",               
-    "termsOfUseUrl": "<terms-of-use-url>",     
-    "privacyPolicyUrl": "<privacy-policy-url>" 
-}
+    "name": "Pirate Coin Clicker",
+    "description": "A fun clicker game to earn pirate coins",
+    "url": "https://usama25.github.io/Clicker-Telegram",
+    "icons": ["https://usama25.github.io/Clicker-Telegram/icon.png"],
+    "bridge": "https://bridge.tonapi.io/bridge",
+    "dappUrl": "https://usama25.github.io/Clicker-Telegram"
+  }
+  
