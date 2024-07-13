@@ -3,35 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tap to Earn</title>
+  <title>Clicker Game</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <div class="top-tabs">
-      <button class="tab">Home</button>
-      <button class="tab">Profile</button>
-      <button class="tab">Settings</button>
-    </div>
-
-    <div class="content">
-      <div class="header">
-        <h1>Squirrel Coin</h1>
-        <p id="click-count">Coins: 0</p>
-      </div>
-      <button id="click-button">
-        <img src="button.png" alt="Click Me" id="button-image"> <!-- Set your button image path -->
-      </button>
-      <div id="coin-container"></div>
-    </div>
-
-    <div class="bottom-tabs">
-      <button class="tab">Shop</button>
-      <button class="tab">Achievements</button>
-      <button class="tab">Leaderboard</button>
-    </div>
-  </div>
-
+  <h1>Clicker Game</h1>
+  <p id="click-count">Clicks: 0</p>
+  <button id="click-button">
+    <img src="button.png" alt="Click Me" id="button-image"> <!-- Set your button image path -->
+  </button>
+  <button id="connect-wallet-button">Connect TON Wallet</button>
+  <div id="wallet-info"></div>
+  <div id="coin-container"></div>
   <script src="script.js"></script>
 </body>
 </html>
