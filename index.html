@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tap to Earn</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -16,36 +17,30 @@
       <button id="click-button">
         <img src="button.png" alt="Click Me" id="button-image"> <!-- Set your button image path -->
       </button>
-      <button id="ton-connect">CONNECT WALLET</button>
+      <button id="ton-connect"></button>
       <div id="coin-container"></div>
     </div>
   </div>
 
-  <!-- Load the TON SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
-  <script>
-    window.addEventListener('load', () => {
-      const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-          manifestUrl: 'https://usama25.github.io/Clicker-Telegram/tonconnect-manifest.json',
-          buttonRootId: 'ton-connect'
-      });
 
-      async function connectToWallet() {
-          try {
-              const connectedWallet = await tonConnectUI.connectWallet();
-              console.log('Connected Wallet:', connectedWallet);
-
-              // Update the button text upon successful connection
-              document.getElementById('ton-connect').textContent = 'Wallet Connected';
-          } catch (error) {
-              console.error("Error connecting to wallet:", error);
-          }
-      }
-
-      // Attach the connectToWallet function to the button click event
-      document.getElementById('ton-connect').addEventListener('click', connectToWallet);
+   <script>
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+        manifestUrl: 'https://usama25.github.io/Clicker-Telegram/tonconnect-manifest.json',
+        buttonRootId: 'ton-connect'
     });
-  </script>
+
+    async function connectToWallet() {
+        const connectedWallet = await tonConnectUI.connectWallet();
+        // Do something with connectedWallet if needed
+        console.log(connectedWallet);
+    }
+
+    // Call the function
+    connectToWallet().catch(error => {
+        console.error("Error connecting to wallet:", error);
+    });
+   </script>
+ 
   <script src="script.js"></script>
 </body>
 </html>
