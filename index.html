@@ -19,11 +19,18 @@
       </button>
       <button id="ton-connect"></button>
       <div id="coin-container"></div>
+      <button id="menu-button">Open Menu</button>
+      <div id="menu" class="menu">
+        <h2>Upgrades</h2>
+        <ul id="menu-items">
+          <!-- Menu items will be populated here -->
+        </ul>
+        <button id="close-menu">Close Menu</button>
+      </div>
     </div>
   </div>
 
-
-   <script>
+  <script>
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
         manifestUrl: 'https://dreamparktech.com/tonconnect-manifest.json',
         buttonRootId: 'ton-connect'
@@ -39,8 +46,8 @@
     connectToWallet().catch(error => {
         console.error("Error connecting to wallet:", error);
     });
-   </script>
- 
+  </script>
+
   <script src="script.js"></script>
 </body>
 </html>

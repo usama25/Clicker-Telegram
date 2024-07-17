@@ -75,7 +75,6 @@ button {
   position: relative;
   transition: transform 0.1s ease;
   margin-top: 50px; /* Move .content to the bottom */
- 
 }
 
 button img {
@@ -125,4 +124,81 @@ button.shake {
     opacity: 0;
     transform: translateY(-100px);
   }
+}
+
+.menu {
+  display: none;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  width: 300px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 10px;
+  text-align: left;
+  max-height: 250px; /* Adjust height to show only three items */
+  overflow-y: auto; /* Make the menu scrollable */
+}
+
+.menu h2 {
+  margin-top: 0;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu button {
+  background-color: #ffffff;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.menu button:hover {
+  background-color: #ddd;
+}
+
+.menu button:disabled {
+  background-color: #aaa; /* Gray out the button when disabled */
+  cursor: not-allowed; /* Change cursor to indicate non-interactability */
+}
+
+#menu-button {
+  background-color: #ffffff;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin-top: 20px;
+}
+
+#menu-button:hover {
+  background-color: #ddd;
+}
+
+#close-menu {
+  background-color: #ffffff;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin-top: 20px;
+}
+
+#close-menu:hover {
+  background-color: #ddd;
 }
