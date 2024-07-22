@@ -1,90 +1,53 @@
 document.addEventListener('DOMContentLoaded', () => {
-  let perClickValue = 1;
-  const upgradeCosts = Array(10).fill(10);
-  const upgradeValues = Array(10).fill(0);
-
-  const menuItems = document.getElementById('menu-items');
-  for (let i = 0; i < 10; i++) {
-    const li = document.createElement('li');
-    li.innerHTML = `
-      Item ${i + 1} (Level <span id="item-level-${i}">0</span>)
-      <button id="upgrade-button-${i}" data-index="${i}" disabled>Upgrade (Cost: <span id="item-cost-${i}">${upgradeCosts[i]}</span>)</button>
-    `;
-    menuItems.appendChild(li);
-  }
-
-  document.getElementById('menu-button').addEventListener('click', () => {
-    document.getElementById('menu').style.display = 'block';
+  const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+    manifestUrl: 'https://dreamparktech.com/tonconnect-manifest.json',
+    buttonRootId: 'ton-connect'
   });
 
-  document.getElementById('close-menu').addEventListener('click', () => {
-    document.getElementById('menu').style.display = 'none';
-  });
-
-  function updateUpgradeButtons() {
-    const clickCountElement = document.getElementById('click-count');
-    let count = parseInt(clickCountElement.textContent.split(': ')[1]);
-
-    for (let i = 0; i < 10; i++) {
-      const button = document.getElementById(`upgrade-button-${i}`);
-      if (count >= upgradeCosts[i]) {
-        button.disabled = false;
-      } else {
-        button.disabled = true;
-      }
-    }
+  async function connectToWallet() {
+    const connectedWallet = await tonConnectUI.connectWallet();
+    console.log(connectedWallet);
   }
 
-  for (let i = 0; i < 10; i++) {
-    document.getElementById(`upgrade-button-${i}`).addEventListener('click', (event) => {
-      const index = parseInt(event.target.getAttribute('data-index'));
-      const clickCountElement = document.getElementById('click-count');
-      let count = parseInt(clickCountElement.textContent.split(': ')[1]);
+  connectToWallet().catch(error => {
+    console.error('Error connecting to wallet:', error);
+  });
 
-      if (count >= upgradeCosts[index]) {
-        count -= upgradeCosts[index];
-        clickCountElement.textContent = `Coins: ${count}`;
+  const tabs = document.querySelectorAll('.tab-button');
+  const tabContents = document.querySelectorAll('.tab-content');
+  const clickButton = document.getElementById('click-button');
+  const clickCountDisplay = document.getElementById('click-count');
+  const coinContainer = document.getElementById('coin-container');
+  let coinCount = 0;
 
-        upgradeValues[index] += 1;
-        document.getElementById(`item-level-${index}`).textContent = upgradeValues[index];
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tabContents.forEach(tc => tc.classList.remove('active'));
 
-        upgradeCosts[index] = Math.floor(upgradeCosts[index] * 1.5);
-        document.getElementById(`item-cost-${index}`).textContent = upgradeCosts[index];
-
-        perClickValue += 1;
-
-        updateUpgradeButtons();
-      }
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
     });
-  }
+  });
 
-  document.getElementById('click-button').addEventListener('click', (event) => {
-    const clickCountElement = document.getElementById('click-count');
-    let count = parseInt(clickCountElement.textContent.split(': ')[1]);
-    count += perClickValue;
-    clickCountElement.textContent = `Coins: ${count}`;
-
-    updateUpgradeButtons();
-
-    // Shake animation
-    const button = document.getElementById('click-button');
-    button.classList.add('shake');
+  clickButton.addEventListener('click', (event) => {
+    coinCount++;
+    clickCountDisplay.textContent = `Coins: ${coinCount}`;
+    clickButton.classList.add('shake');
     setTimeout(() => {
-      button.classList.remove('shake');
+      clickButton.classList.remove('shake');
     }, 300);
 
-    // Coin animation
-    const coinContainer = document.getElementById('coin-container');
+    // Get the click position relative to the button
+    const rect = clickButton.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // Create the coin element
     const coin = document.createElement('div');
     coin.classList.add('coin');
-
-    // Get click coordinates relative to the container
-    const containerRect = coinContainer.getBoundingClientRect();
-    const x = event.clientX - containerRect.left;
-    const y = event.clientY - containerRect.top;
-    coin.style.left = `${x}px`;
-    coin.style.top = `${y}px`;
-
+    coin.style.left = `${rect.left + x}px`; // Adjust by half the coin's width
+    coin.style.top = `${rect.top + y}px`; // Adjust by half the coin's height
     coinContainer.appendChild(coin);
 
     setTimeout(() => {
@@ -92,6 +55,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   });
 
-  // Initialize buttons state
-  updateUpgradeButtons();
+  const menuItems = [
+    { name: 'Upgrade 1', price: 10, image: 'coin.png' },
+    { name: 'Upgrade 2', price: 10, image: 'coin.png' },
+    { name: 'Upgrade 3', price: 10, image: 'coin.png' },
+    { name: 'Upgrade 4', price: 10, image: 'coin.png' },
+    // Add more items as needed
+  ];
+
+  const marketContainer = document.querySelector('.market-container');
+
+  menuItems.forEach(item => {
+    const itemBlock = document.createElement('div');
+    itemBlock.classList.add('item-block');
+
+    const itemImage = document.createElement('img');
+    itemImage.src = item.image;
+    itemImage.alt = item.name;
+
+    const itemName = document.createElement('h3');
+    itemName.textContent = item.name;
+
+    const itemPrice = document.createElement('p');
+    itemPrice.textContent = `Price: ${item.price} coins`;
+
+    const upgradeButton = document.createElement('button');
+    upgradeButton.textContent = 'Upgrade';
+    upgradeButton.addEventListener('click', () => {
+      if (coinCount >= item.price) {
+        coinCount -= item.price;
+        clickCountDisplay.textContent = `Coins: ${coinCount}`;
+        item.price *= 1.5; // Increase the price for the next upgrade
+        itemPrice.textContent = `Price: ${Math.round(item.price)} coins`;
+        console.log(`${item.name} upgraded!`);
+      } else {
+        alert('Not enough coins!');
+      }
+    });
+
+    itemBlock.appendChild(itemImage);
+    itemBlock.appendChild(itemName);
+    itemBlock.appendChild(itemPrice);
+    itemBlock.appendChild(upgradeButton);
+
+    marketContainer.appendChild(itemBlock);
+  });
 });

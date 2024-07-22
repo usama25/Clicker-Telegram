@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Luckiest Guy', cursive;
   margin: 0;
   overflow: hidden; /* Prevent vertical scrolling */
+  background-color: #f2f2f2; /* Light background color */
+  position: relative; /* Ensure the body is positioned relative */
 }
 
 .container {
@@ -10,43 +14,11 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  min-height: 100vh; /* Ensure container takes full viewport height */
-  background-image: url('background.jpg'); /* Set your background image path */
+  height: 100vh; /* Ensure container takes full viewport height */
+  background-image: url('hamster_bg.jpg'); /* Set your background image path */
   background-size: cover;
   background-position: center;
-  
   box-sizing: border-box; /* Include padding in width calculation */
-}
-
-.top-tabs, .bottom-tabs {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.tab {
-  background: #ffffff;
-  border: none;
-  padding: 10px 20px;
- 
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-.tab:hover {
-  background: #ddd;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  color: white;
-  margin-top: auto; /* Move .content to the bottom */
-  margin-bottom: 20px; /* Add margin to separate from bottom tabs */
 }
 
 .header {
@@ -55,16 +27,28 @@ body {
   align-items: center;
   width: 100%;
   padding: 0 60px; /* Increased padding to ensure more spacing */
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
 h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 36px;
+  color: #333;
 }
 
 #click-count {
   margin: 0;
-  font-size: 18px;
+  font-size: 24px;
+  color: #333;
+}
+
+.click-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
 }
 
 button {
@@ -74,12 +58,24 @@ button {
   cursor: pointer;
   position: relative;
   transition: transform 0.1s ease;
-  margin-top: 50px; /* Move .content to the bottom */
+  outline: none; /* Remove focus outline */
+}
+
+button:focus {
+  outline: none; /* Ensure focus outline is removed */
 }
 
 button img {
-  width: 100px; /* Adjust size as needed */
+  width: 200px; /* Adjust size as needed */
   height: auto;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  -webkit-tap-highlight-color: transparent; /* Remove highlight color for touch devices */
+}
+
+button:active {
+  background: none; /* Remove background change on click */
+  border: none; /* Remove any border change on click */
 }
 
 button.shake {
@@ -101,9 +97,13 @@ button.shake {
 }
 
 #coin-container {
-  position: relative;
-  height: 200px; /* Adjust height as needed */
-  margin-top: 20px; /* Add margin to separate from button */
+  position: absolute; /* Ensure the container is fixed to the viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Ensure clicks pass through the container */
+  z-index: 1000; /* Ensure it is above other elements */
 }
 
 .coin {
@@ -126,79 +126,108 @@ button.shake {
   }
 }
 
-.menu {
-  display: none;
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -20%);
-  width: 300px;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  border-radius: 10px;
-  text-align: left;
-  max-height: 250px; /* Adjust height to show only three items */
-  overflow-y: auto; /* Make the menu scrollable */
-}
-
-.menu h2 {
-  margin-top: 0;
-}
-
-.menu ul {
-  list-style: none;
-  padding: 0;
-}
-
-.menu li {
-  margin-bottom: 10px;
+.tabs {
   display: flex;
+  justify-content: space-around;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 0;
+}
+
+.tab-button {
+  background: #ffcc00;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.tab-button.active {
+  background: #ff9900;
+}
+
+.tab-button:hover {
+  background: #ff9900;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.tab-content {
+  display: none;
+  flex: 1;
+  width: 100%;
+  padding: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.tab-content.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.market-container {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  padding: 20px;
+  gap: 20px;
 }
 
-.menu button {
-  background-color: #ffffff;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 5px 10px;
+.item-block {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: calc(50% - 20px);
+  box-sizing: border-box;
+  text-align: center;
 }
 
-.menu button:hover {
-  background-color: #ddd;
+.item-block img {
+  max-width: 70%;
+  border-radius: 10px;
 }
 
-.menu button:disabled {
-  background-color: #aaa; /* Gray out the button when disabled */
-  cursor: not-allowed; /* Change cursor to indicate non-interactability */
+.cover-image {
+  width: 100%;
+  height: 30%;
+  overflow: hidden;
+  position: relative;
 }
 
-#menu-button {
-  background-color: #ffffff;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.cover-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover-image-element {
+  width: 100%;
+  height: 30vh;
+  object-fit: cover;
+}
+
+#ton-connect {
+  display: block;
+  margin: 20px auto;
   padding: 10px 20px;
-  margin-top: 20px;
-}
-
-#menu-button:hover {
-  background-color: #ddd;
-}
-
-#close-menu {
-  background-color: #ffffff;
-  color: black;
+  font-size: 18px;
+  color: #fff;
+  background-color: #333;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
-  padding: 10px 20px;
-  margin-top: 20px;
-}
-
-#close-menu:hover {
-  background-color: #ddd;
 }

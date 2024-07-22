@@ -9,44 +9,38 @@
 </head>
 <body>
   <div class="container">
+    <div class="tabs">
+      <button class="tab-button active" data-tab="tab-1">Hamster</button>
+      <button class="tab-button" data-tab="tab-2">Market</button>
+      <button class="tab-button" data-tab="tab-3">Connect</button>
+    </div>
     <div class="content">
-      <div class="header">
-        <h1>Pirate Coin</h1>
-        <p id="click-count">Coins: 0</p>
+      <div id="tab-1" class="tab-content active">
+        <div class="header">
+          <h1>Pirate Coin</h1>
+          <p id="click-count">Coins: 0</p>
+        </div>
+        <div class="click-button-container">
+          <button id="click-button">
+            <img src="button.png" alt="Click Me" id="button-image"> <!-- Set your button image path -->
+          </button>
+        </div>
+        <div id="coin-container"></div>
       </div>
-      <button id="click-button">
-        <img src="button.png" alt="Click Me" id="button-image"> <!-- Set your button image path -->
-      </button>
-      <button id="ton-connect"></button>
-      <div id="coin-container"></div>
-      <button id="menu-button">Open Menu</button>
-      <div id="menu" class="menu">
+      <div id="tab-2" class="tab-content">
         <h2>Upgrades</h2>
-        <ul id="menu-items">
+        <div class="market-container">
           <!-- Menu items will be populated here -->
-        </ul>
-        <button id="close-menu">Close Menu</button>
+        </div>
+      </div>
+      <div id="tab-3" class="tab-content">
+        <div class="cover-image">
+          <img src="background.jpg" alt="Cover Image" class="cover-image-element"> <!-- Set your cover image path -->
+        </div>
+        <button id="ton-connect"></button>
       </div>
     </div>
   </div>
-
-  <script>
-    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-        manifestUrl: 'https://dreamparktech.com/tonconnect-manifest.json',
-        buttonRootId: 'ton-connect'
-    });
-
-    async function connectToWallet() {
-        const connectedWallet = await tonConnectUI.connectWallet();
-        // Do something with connectedWallet if needed
-        console.log(connectedWallet);
-    }
-
-    // Call the function
-    connectToWallet().catch(error => {
-        console.error("Error connecting to wallet:", error);
-    });
-  </script>
 
   <script src="script.js"></script>
 </body>
